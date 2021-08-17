@@ -13,23 +13,25 @@ M(5,1) = sum(M(1:3,1));
 gamma = params(4);
 mu_h = params(5);
 z = params(6);
+nu = params(7);
 
 %Total population
-
-N = sum(M(1:3,1));
 
 prob = ins.Prob;
 
 for i = domain(1) + 1 : domain(2)    
+    
+    N = sum(M(1:3,i));
+    aleph = 1+nu*M(2,i)/(M(1,i)+M(2,i));
 
     %Define probability of interaction
     switch prob 
         case 1
-            Probability = (1 - M(2, i)/N)^z;
+            Probability = (1 - (M(2, i)/N)^aleph)^z;
         case 2
             if M(1, i) > 1        
-                red = z * M(2, i) * (M(1, i)/N);
-                Probability = ( 1 - 1/M(1, i)) ^ red;
+                red = (z * M(2, i) * M(1, i)/N)^aleph;
+                Probability = ((M(1, i) - 1)/M(1, i)) ^ red;
             else        
                 Probability = 0;        
             end
@@ -48,7 +50,7 @@ for i = domain(1) + 1 : domain(2)
     %Fitting functions
     %%accumulated recovered
     M(4, i + 1) = M(4, i) + M(2, i) * exp( - gamma) * (1 - mu_h) ;
-    M(5, i+1) = sum(M(1:3,1));
+    M(5, i + 1) = sum(M(1:3,i));
 end
 
 sol = struct();
