@@ -20,21 +20,20 @@ prob = ins.Prob;
 for i = domain(1) + 1 : domain(2)    
     
     N = sum(M(1:3,i));
-%     aleph = 1+nu*M(2,i)/(M(1,i)+M(2,i));
 
     %Define probability of interaction
     switch prob 
-        case 1
+        case 1 %psi
             Probability = (1 - (M(2, i)/N))^z;
-        case 2
+        case 2 %phi
             if M(1, i) > 1        
                 red = (z * M(2, i) * M(1, i)/N);
                 Probability = ((M(1, i) - 1)/M(1, i)) ^ red;
             else        
                 Probability = 0;        
             end
-        case 3 
-            Probability = 1-M(2,i)/N;
+        case 3 %classic
+            Probability = 1 - M(2,i)/N;
     end
     
     % Susceptible
