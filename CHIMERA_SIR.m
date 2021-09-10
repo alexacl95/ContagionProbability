@@ -7,12 +7,14 @@ M(1,1) = params(1);
 M(2,1) = params(2);
 M(3,1) = params(3);
 M(4,1) = params(3);
-M(5,1) = sum(M(1:3,1));
+M(5,1) = params(4);
+M(6,1) = sum(M(1:3,1));
 
 %Define parameters
-gamma = params(4);
-mu_h = params(5);
-z = params(6);
+gamma = params(5);
+mu_h = params(6);
+z = params(7);
+nu = params(8);
 %Total population
 
 prob = ins.Prob;
@@ -20,20 +22,22 @@ prob = ins.Prob;
 for i = domain(1) + 1 : domain(2)    
     
     N = sum(M(1:3,i));
-
+    
+    aleph = 1 + nu*M(2,i)/(M(1,i)+ M(2,i)/nu);
+    
     %Define probability of interaction
     switch prob 
         case 1 %psi
-            Probability = (1 - (M(2, i)/N))^z;
+            Probability = (1 - ((M(2, i)/N))^aleph)^z;
         case 2 %phi
             if M(1, i) > 1        
                 red = (z * M(2, i) * M(1, i)/N);
-                Probability = ((M(1, i) - 1)/M(1, i)) ^ red;
+                Probability = ((M(1, i) - 1)/M(1, i)) ^ red^aleph;
             else        
                 Probability = 0;        
             end
         case 3 %classic
-            Probability = 1 - M(2,i)/N;
+            Probability = 1 - z*(M(2,i)/N)^aleph;
     end
     
     % Susceptible
@@ -49,7 +53,10 @@ for i = domain(1) + 1 : domain(2)
     %Fitting functions
     %%accumulated recovered
     M(4, i + 1) = M(4, i) + M(2, i) * exp( - gamma) * (1 - mu_h) ;
-    M(5, i + 1) = sum(M(1:3,i));
+    %%accumulated cases
+    M(5, i + 1) = M(5, i) + M(1, i) * (1 - Probability) * (1 - mu_h);
+    %%Total popultion
+    M(6, i + 1) = sum(M(1:3,i));
 end
 
 sol = struct();
