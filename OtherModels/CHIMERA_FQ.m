@@ -30,7 +30,7 @@ for i = domain(1) + 1 : domain(2)
     N =  sum(M(1:7, i));
 %     I_tot = sum(3:5,i);
     
-    aleph = 1 + nu*M(3,i)/(M(1,i)+ M(3,i));
+    aleph = 1 + nu*M(3,i)/(M(1,i) + M(3,i));
 %     aleph = 1 + nu*I_tot/(M(1,i) + I_tot);
 %       aleph = 1 + nu*M(3,i)/(M(1,i)/nu+ M(3,i));
     
@@ -39,14 +39,15 @@ for i = domain(1) + 1 : domain(2)
         case 1 %psi
             Probability = (1 - ((M(3, i)/N))^aleph)^z;
         case 2 %phi
-            if M(1, i) > 1        
-                red = (z * M(3, i) * M(1, i)/N);
-                Probability = ((M(1, i) - 1)/M(1, i)) ^ red^aleph;
-            else        
-                Probability = 0;        
-            end
+%             if M(1, i) > 1     
+                Probability = (1-1/(M(1, i)+1))^(z * M(3, i)*(M(1, i)/N)^aleph);
+%             else        
+%                 Probability = 0;        
+%             end
         case 3 %classic
             Probability = 1 - z*(M(3,i)/N)^aleph;
+        case 4
+            Probability = 1 - z*(M(3,i)/N);
     end
     
     % Susceptible
@@ -71,7 +72,7 @@ for i = domain(1) + 1 : domain(2)
     %%Total popultion
     M(8, i + 1) = sum(M(1:7, i));
     M(9, i + 1) = aleph;
-    M(10,i + 1) = Probability;
+    M(10,i + 1) = 1 - Probability;
 end
 
 sol = struct();
