@@ -28,26 +28,26 @@ M(8, 1) = sum(M(1:7,1));
 for i = domain(1) + 1 : domain(2)    
     
     N =  sum(M(1:7, i));
-%     I_tot = sum(3:5,i);
+    I_tot = sum(M(3:5,i));
     
-    aleph = 1 + nu*M(3,i)/(M(1,i) + M(3,i));
+    aleph = 1 + nu*I_tot/(M(1,i)/nu + I_tot);
 %     aleph = 1 + nu*I_tot/(M(1,i) + I_tot);
 %       aleph = 1 + nu*M(3,i)/(M(1,i)/nu+ M(3,i));
     
     %Define probability of interaction
     switch prob 
         case 1 %psi
-            Probability = (1 - ((M(3, i)/N))^aleph)^z;
+            Probability = (1 - ((I_tot/N))^aleph)^z;
         case 2 %phi
 %             if M(1, i) > 1     
-                Probability = (1-1/(M(1, i)+1))^(z * M(3, i)*(M(1, i)/N)^aleph);
+                Probability = (1-1/(M(1, i)+1))^(z * I_tot*(M(1, i)/N)^aleph);
 %             else        
 %                 Probability = 0;        
 %             end
         case 3 %classic
-            Probability = 1 - z*(M(3,i)/N)^aleph;
+            Probability = 1 - z*(I_tot/N)^aleph;
         case 4
-            Probability = 1 - z*(M(3,i)/N);
+            Probability = 1 - z*(I_tot/N);
     end
     
     % Susceptible
