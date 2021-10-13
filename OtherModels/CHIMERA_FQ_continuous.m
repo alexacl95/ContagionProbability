@@ -21,7 +21,7 @@ p = [params(8);     %alpha
      ins.Prob
 ];
 
-% options = odeset('NonNegative',1:7,'RelTol',1e-5,'AbsTol',1e-5,'MaxStep',1e-2);
+% options = odeset('NonNegative',1:7);
 
 [t,y] = ode45(@(t,y) f(t,y, p), [domain(1) domain(2)], IC);
 
@@ -29,7 +29,8 @@ N = sum(y(1,:));
 z = params(15);
 I_f = y(:,3);
 S_f = y(:,1);
-aleph = 1 + params(13)*I_f./(I_f + S_f);
+I_tot = sum(y(:,3:5),2); 
+aleph = 1 + params(13)*I_tot./(I_tot + S_f);
 
 
     switch ins.Prob 
@@ -56,6 +57,8 @@ function dX = f(~, X, params)
     R = X(6);
     R_j = X(7);
     
+    I_tot = sum(X(3:5));
+    
     lambda = params(1); %Enter quarantine
     alpha = params(2);  %Leave quarantine
     mu = params(3);    %Leave R
@@ -67,7 +70,7 @@ function dX = f(~, X, params)
     prob = params(9);
     
     N = S_f + S_q + I_f + I_q + I_j + R + R_j;
-    aleph = 1 + nu*I_f/(I_f + S_f);
+    aleph = 1 + nu*I_tot/(I_tot + S_f);
     
     switch prob 
         case 1 %psi
