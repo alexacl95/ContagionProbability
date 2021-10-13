@@ -3,14 +3,14 @@ function sol = CHIMERA_FQ(params, domain, ins)
 M = zeros(11, domain(2) + 1);
 
 %Defne initial conditions
-M(1,1) = params(1);         
-M(2,1) = params(2);
-M(3,1) = params(3);
-M(4,1) = params(4);
-M(5,1) = params(5);
-M(6,1) = params(6);
-M(7,1) = params(7);
-M(11,1) = params(4);
+M(1,1) = params(1);     %S_f        
+M(2,1) = params(2);     %S_q
+M(3,1) = params(3);     %I_f
+M(4,1) = params(4);     %I_q
+M(5,1) = params(5);     %I_j
+M(6,1) = params(6);     %R
+M(7,1) = params(7);     %R_j
+M(11,1) = params(5);    %Accumulated cases    
 
 %Define parameters
 lambda = params(8); %Enter quarantine
@@ -20,7 +20,7 @@ theta = params(11); %Detection
 gamma = params(12); %Recovery
 nu = params(13);
 z = params(14);
-beta = params(15);
+beta =  params(15);
 
 prob = ins.Prob;
 
@@ -60,11 +60,11 @@ for i = domain(1) + 1 : domain(2)
       M(6, i + 1) = M(6, i)*(1 - mu) + gamma*(M(3, i) + M(4, i));
       M(7, i + 1) = M(7, i)*(1 - mu) + M(5,i)*gamma;
     
-    % Fitting functions   
+    % Secondary functions   
     %%accumulated cases
       M(11, i + 1) = M(11, i) + theta*(1-gamma)*M(3, i) + theta*(1 - gamma)*M(4, i);
     %%Total popultion
-      M(8, i + 1) = sum(M(1:7, i));
+      M(8, i + 1) = N;
       M(9, i + 1) = aleph;
       M(10,i + 1) = 1 - Probability;
 end
