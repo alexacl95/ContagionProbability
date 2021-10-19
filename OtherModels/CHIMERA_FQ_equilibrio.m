@@ -1,11 +1,13 @@
-function sol = CHIMERA_FQ(params, domain, ins)
+function sol = CHIMERA_FQ_equilibrio(params, domain, ins)
 
-a = params(7);
+lambda = params(8); % Enter quarantine
+alpha = params(9);  % Leave quarantine
+
 M = zeros(11, domain(2) + 1);
 % Defne initial conditions
 
-M(1,1) = a*params(1);       % S_f        
-M(2,1) = (1-a)*params(1);   % S_q
+M(1,1) = alpha/(alpha+lambda)*params(1);    % S_f        
+M(2,1) = lambda/(lambda+alpha)*params(1);   % S_q
 M(3,1) = params(2);         % I_f
 M(4,1) = params(3);         % I_q
 M(5,1) = params(4);         % I_j
@@ -16,8 +18,6 @@ M(11,1) = params(4);        % Accumulated cases
 
 
 % Define parameters
-lambda = params(8); % Enter quarantine
-alpha = params(9);  % Leave quarantine
 mu = params(10);    % Leave R
 theta = params(11); % Detection
 gamma = params(12); % Recovery
