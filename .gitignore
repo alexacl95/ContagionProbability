@@ -9,3 +9,4 @@ codegen/
 *.autosave
 *.slxc
 octave-workspace
+*.MATLABDriveTag
