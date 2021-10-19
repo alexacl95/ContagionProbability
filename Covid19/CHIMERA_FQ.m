@@ -78,4 +78,5 @@ end
 sol = struct();
 sol.x = domain(1) : domain(2);
 sol.y = M; 
+
 end
