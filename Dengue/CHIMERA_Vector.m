@@ -2,28 +2,34 @@ function sol = CHIMERA_Vector(params, domain, ~)
 
 M = zeros(9, domain(2) + 1);
 
+mu_m = params(7);
+r = params(10);
+C = params(11);
+
+eq = C*( 1 - log(mu_m/r));
+
 %Defne initial conditions
 M(1, 1) = params(1);         %Hs
 M(2, 1) = params(2);         %Hi
 M(3, 1) = params(3);         %Hr
-M(4, 1) = params(4);         %Ms
-M(5, 1) = params(5);         %Mi
-M(6, 1) = params(6);         %Md %quitar esta
+M(4, 1) = eq;                %Ms
+M(5, 1) = params(4);         %Mi
+M(6, 1) = params(5);         %Md %quitar esta
 M(7, 1) = params(2);         %Hi_inst
 M(8, 1) = params(2);         %cumulative cases
 M(9, 1) = sum(M(1:3,1));     %N_H  
 
 %Define parameters
-gamma = params(7);
-mu_m = params(8);
-mu_h = params(9);
-z = params(10);
-r = params(11);
-C = params(12);
-beta_m = params(13);
-beta_h = params(14);
-nu_m = params(15);
-nu_h = params(16);
+gamma = params(6);
+% mu_m = params(7);
+mu_h = params(8);
+z = params(9);
+% r = params(10);
+% C = params(11);
+beta_m = params(12);
+beta_h = params(13);
+nu_m = params(14);
+nu_h = params(15);
 
 %Total population
 N_M = zeros(1, domain(2) + 1);
