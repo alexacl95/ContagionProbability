@@ -32,20 +32,20 @@ for i = domain(1) + 1 : domain(2)
     N =  sum(M(1:6, i));
     I_tot = sum(M(3:5,i));
         
-    %Probability of interaction
+    %% Probability of interaction
     
     aleph = 1 + nu*I_tot/(M(1,i) + I_tot);
     
     switch prob 
         case 1 %psi
-            Probability = beta*(1-(1 - ((M(3,i)/N))^aleph)^z);
+            Probability = beta*(1-(1-(M(3,i)/N)^aleph)^z);
         case 2 %phi
             Probability = beta*(1-(1-1/(M(1, i)+1))^(z *M(3,i)*(M(1, i)/N)^aleph));
 
         case 3 %classic
             Probability = beta*(M(3,i)/N)^aleph;
     end
-    
+    %% 
     % Susceptible
       M(1, i + 1) = (1 - lambda)*(1-Probability)*M(1, i) + alpha*M(2, i) + mu*M(6, i);
       M(2, i + 1) = lambda*(1-Probability)*M(1,i) + (1-alpha)*M(2, i);
