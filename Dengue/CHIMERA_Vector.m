@@ -20,8 +20,8 @@ mu_h = params(9);
 z = params(10);
 r = params(11);
 C = params(12);
-beta_m = params(13);
-beta_h = params(14);
+beta_mh = params(13);
+beta_hm = params(14);
 nu_m = params(15);
 nu_h = params(16);
 
@@ -40,11 +40,11 @@ for i = domain(1) + 1 : domain(2)
     aleph_M = 1 + nu_m*M(5,i)/(M(4,i) + M(5,i));
     
     %to find a human
-    psi = beta_h*(1-(1-(M(2, i)/N_H)^aleph_M)^ z);
+    psi = beta_hm*(1-(1-(M(2, i)/N_H)^aleph_M)^ z);
     
     %to find a mosquito;
-    red_m = z * M(5, i) * (M(1, i)/N_H)^aleph_H;
-    phi = beta_m*(1-(1-1/(M(1, i)+1)) ^ red_m);    
+    red_m = z * M(5, i) * (M(1, i)/N_H);
+    phi = beta_mh*(1-(1-(1/(M(1, i)+1))^aleph_H) ^ red_m);    
     
     %% Humans
     % Susceptible
@@ -56,7 +56,7 @@ for i = domain(1) + 1 : domain(2)
     
     %fitting curve: instantaneous infections and cumulative cases
     M(7, i + 1) = M(1, i) *  phi * (1 - mu_h);
-    M(8, i + 1) = M(8,i) + M(1, i) * phi * (1 - mu_h);
+    M(8, i + 1) = M(8, i) + M(1, i) * phi * (1 - mu_h);
     
     %% Mosquitoes
     %Total population
@@ -78,6 +78,11 @@ for i = domain(1) + 1 : domain(2)
     M(6, i + 1) = M(5, i) * mu_m + M(4, i) * mu_m; %Not accumulated
     
     M(9, i + 1) = N_H;
+    
+    M(10, i + 1) = psi;
+    M(11, i + 1) = phi;
+    M(12, i + 1) = aleph_M;
+    M(13, i + 1) = aleph_H;
 end
 
 sol = struct();

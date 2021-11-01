@@ -40,7 +40,7 @@ for i = domain(1) + 1 : domain(2)
         case 1 %psi
             Probability = beta*(1-(1-(M(3,i)/N)^aleph)^z);
         case 2 %phi
-            Probability = beta*(1-(1-1/(M(1, i)+1))^(z *M(3,i)*(M(1, i)/N)^aleph));
+            Probability = beta*(1-(1-(1/(M(1, i)+1))^aleph)^(z *M(3,i)*M(1, i)/N));
 
         case 3 %classic
             Probability = beta*(M(3,i)/N)^aleph;
