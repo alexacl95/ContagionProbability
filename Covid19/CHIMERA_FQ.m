@@ -44,6 +44,8 @@ for i = domain(1) + 1 : domain(2)
 
         case 3 %classic
             Probability = beta*(M(3,i)/N)^aleph;
+        case 4
+            Probability = beta*(M(3,i)/N);
     end
     %% 
     % Susceptible
