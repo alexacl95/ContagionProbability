@@ -1,11 +1,10 @@
 function sol = CHIMERA_FQ(params, domain, ins)
 
-a = params(7);
 M = zeros(11, domain(2) + 1);
 % Defne initial conditions
 
-M(1,1) = a*params(1);       % S_f        
-M(2,1) = (1-a)*params(1);   % S_q
+M(1,1) = params(1);         % S_f        
+M(2,1) = 0;                 % S_q
 M(3,1) = params(2);         % I_f
 M(4,1) = params(3);         % I_q
 M(5,1) = params(4);         % I_j
@@ -16,14 +15,14 @@ M(11,1) = params(4);        % Accumulated cases
 
 
 % Define parameters
-lambda = params(8); % Enter quarantine
-alpha = params(9);  % Leave quarantine
-mu = params(10);    % Leave R
-theta = params(11); % Detection
-gamma = params(12); % Recovery
-nu = params(13);    % conectivity    
-z = params(14);     % Interactions
-beta =  params(15);
+lambda = params(7); % Enter quarantine
+alpha = params(8);  % Leave quarantine
+mu = params(9);    % Leave R
+theta = params(10); % Detection
+gamma = params(11); % Recovery
+nu = params(12);    % conectivity    
+z = params(13);     % Interactions
+beta =  params(14);
 
 prob = ins.Prob;
 
@@ -40,7 +39,11 @@ for i = domain(1) + 1 : domain(2)
         case 1 %psi
             Probability = beta*(1-(1-(M(3,i)/N)^aleph)^z);
         case 2 %phi
-            Probability = beta*(1-(1-(1/(M(1, i)+1))^aleph)^(z *M(3,i)*M(1, i)/N));
+            if M(1, i)>=1
+                Probability = beta*(1-(1-1/(M(1, i)))^(z *M(3,i)*(M(1, i)/N)^aleph));
+            else
+                Probability=0;
+            end
 
         case 3 %classic
             Probability = beta*(M(3,i)/N)^aleph;

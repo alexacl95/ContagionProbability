@@ -43,8 +43,8 @@ for i = domain(1) + 1 : domain(2)
     psi = beta_hm*(1-(1-(M(2, i)/N_H)^aleph_M)^ z);
     
     %to find a mosquito;
-    red_m = z * M(5, i) * (M(1, i)/N_H);
-    phi = beta_mh*(1-(1-(1/(M(1, i)+1))^aleph_H) ^ red_m);    
+    red_m = z * M(5, i) * (M(1, i)/N_H)^aleph_H;
+    phi = beta_mh*(1-(1-(1/(M(1, i)+1))) ^ red_m);    
     
     %% Humans
     % Susceptible
@@ -55,8 +55,8 @@ for i = domain(1) + 1 : domain(2)
     M(3, i + 1) = M(3, i) * (1 - mu_h) + M(2, i) * gamma * (1 - mu_h);
     
     %fitting curve: instantaneous infections and cumulative cases
-    M(7, i + 1) = M(1, i) *  phi * (1 - mu_h);
-    M(8, i + 1) = M(8, i) + M(1, i) * phi * (1 - mu_h);
+    M(7, i + 1) = M(1, i) *  phi * (1 - mu_h);          %ins
+    M(8, i + 1) = M(8, i) + M(1, i) * phi * (1 - mu_h); %cum
     
     %% Mosquitoes
     %Total population
