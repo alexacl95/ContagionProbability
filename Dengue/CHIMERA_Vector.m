@@ -44,7 +44,12 @@ for i = domain(1) + 1 : domain(2)
     
     %to find a mosquito;
     red_m = z * M(5, i) * (M(1, i)/N_H)^aleph_H;
-    phi = beta_mh*(1-(1-(1/(M(1, i)+1))) ^ red_m);    
+    
+    if M(1, i) >=1
+        phi = beta_mh*(1-(1-(1/(M(1, i)))) ^ red_m);  
+    else
+        phi = 0;    
+    end
     
     %% Humans
     % Susceptible
